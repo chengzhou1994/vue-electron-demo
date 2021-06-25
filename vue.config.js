@@ -147,7 +147,7 @@ module.exports = {
     port: 8066, // 端口号
     https: false, // https:{type:Boolean}
     hotOnly: false, // 热更新
-    //使用代理
+    // 使用代理
     // proxy: 'http://localhost:8080'   // 配置跨域处理,只有一个代理
     proxy: {
       '/api': {
@@ -180,7 +180,20 @@ module.exports = {
   // 第三方插件的选项
   pluginOptions: {
     electronBuilder: {
-      builderOptions: {},
+      removeElectronJunk: false, // 移除Electron 有时会产生一堆垃圾输出
+      builderOptions: {
+        nsis: {
+          oneClick: false, // 一键安装
+          allowElevation: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。
+          allowToChangeInstallationDirectory: true, // 允许修改安装目录
+          /*  installerIcon: './public/icons/app.ico', // 安装图标
+          uninstallerIcon: './public/icons/app.ico', //卸载图标
+          installerHeaderIcon: './public/icons/app.ico', // 安装时头部图标 */
+          createDesktopShortcut: true, // 创建桌面图标
+          createStartMenuShortcut: true, // 创建开始菜单图标
+          shortcutName: 'chengzhou', // 图标名称
+        },
+      },
     },
   },
 }
