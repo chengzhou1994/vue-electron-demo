@@ -159,15 +159,16 @@ module.exports = {
           '^/api': '',
         },
       },
+      /*
       '/api2': {
         target: 'http://github.com',
         changeOrigin: true,
-        //ws: true, websocket支持
+        // ws: true, websocket支持
         secure: false,
         pathRewrite: {
           '^/api2': '',
         },
-      },
+      }, */
     },
     // before: app => {}
   },
@@ -180,20 +181,62 @@ module.exports = {
   // 第三方插件的选项
   pluginOptions: {
     electronBuilder: {
-      removeElectronJunk: false, // 移除Electron 有时会产生一堆垃圾输出
+      productName: 'myapp', ////项目名 这也是生成的exe文件的前缀名
+      directories: {
+        // 输出文件夹
+        output: 'build',
+      },
+      appId: 'com.example.app', //包名
+      copyright: 'Copyright © 2021',
+      mac: {
+        icon: 'public/favicon.ico',
+      },
+      win: {
+        icon: 'public/favicon.ico',
+        target: [
+          {
+            target: 'nsis',
+            arch: ['x64'],
+          },
+        ],
+      },
+      linux: {
+        // 设置linux的图标
+        icon: 'public/icons/app.png',
+        target: 'AppImage',
+      },
+      dmg: {
+        contents: [
+          {
+            x: 410,
+            y: 150,
+            type: 'link',
+            path: '/Applications',
+          },
+          {
+            x: 130,
+            y: 150,
+            type: 'file',
+          },
+        ],
+      },
+      // nsis编译选项
       builderOptions: {
         nsis: {
           oneClick: false, // 一键安装
           allowElevation: true, // 允许请求提升。 如果为false，则用户必须使用提升的权限重新启动安装程序。
           allowToChangeInstallationDirectory: true, // 允许修改安装目录
-          /*  installerIcon: './public/icons/app.ico', // 安装图标
+          installerIcon: './public/icons/app.ico', // 安装图标
           uninstallerIcon: './public/icons/app.ico', //卸载图标
-          installerHeaderIcon: './public/icons/app.ico', // 安装时头部图标 */
+          installerHeaderIcon: './public/icons/app.ico', // 安装时头部图标
           createDesktopShortcut: true, // 创建桌面图标
           createStartMenuShortcut: true, // 创建开始菜单图标
           shortcutName: 'chengzhou', // 图标名称
         },
       },
+      nodeIntegration: true, // 设置开启nodejs环境
+      contextIsolation: false,
+      removeElectronJunk: false, // 移除Electron有时会产生一堆垃圾输出
     },
   },
 }
