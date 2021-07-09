@@ -2,7 +2,6 @@
 import { app, protocol, BrowserWindow, session, globalShortcut } from 'electron'
 const path = require('path')
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-// import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Scheme must be registered before the app is ready
@@ -17,8 +16,9 @@ async function createWindow() {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
-      contextIsolation: false,
-      // contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      // nodeIntegration: true,
+      // contextIsolation: false,
       fullscreen: true,
       skipTaskbar: false,
       fullscreenable: true,
