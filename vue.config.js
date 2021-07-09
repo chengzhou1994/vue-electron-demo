@@ -2,7 +2,7 @@
 'use strict'
 const path = require('path')
 const IS_PROD = ['production'].includes(process.env.NODE_ENV)
-const CompressionPlugin = require('compression-webpack-plugin') //引入compression-webpack-plugin Gzip
+
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
@@ -58,17 +58,6 @@ module.exports = {
   // 如果这个值是一个对象，则会通过 webpack-merge 合并到最终的配置中。
   // 如果这个值是一个函数，则会接收被解析的配置作为参数。该函数既可以修改配置并不返回任何东西，也可以返回一个被克隆或合并过的配置版本
   configureWebpack: (config) => {
-    if (process.env.NODE_ENV === 'production') {
-      return {
-        plugins: [
-          new CompressionPlugin({
-            test: /\.js$|\.css/,
-            threshold: 10240,
-            deleteOriginalAssets: false,
-          }),
-        ],
-      }
-    }
     config.resolve = {
       // 配置解析别名
       extensions: ['.js', '.json', '.vue'],
