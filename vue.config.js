@@ -2,7 +2,6 @@
 'use strict'
 const path = require('path')
 const IS_PROD = ['production'].includes(process.env.NODE_ENV)
-
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
@@ -127,8 +126,7 @@ module.exports = {
   // 你需要在开发环境下将API请求代理到API服务器。这个问题可以通过vue.config.js中的 devServer.proxy 选项来配置。
   devServer: {
     overlay: {
-      // 让浏览器overlay同时显示警告和错误
-      warnings: true,
+      warnings: true, // 让浏览器overlay同时显示警告和错误
       errors: true,
     },
     open: true, // 自动打开浏览器
@@ -136,8 +134,6 @@ module.exports = {
     port: 8066, // 端口号
     https: false, // https:{type:Boolean}
     hotOnly: false, // 热更新
-    // 使用代理
-    // proxy: 'http://localhost:8080'   // 配置跨域处理,只有一个代理
     proxy: {
       '/api': {
         target: 'http://baidu.com',
@@ -161,12 +157,7 @@ module.exports = {
     },
     // before: app => {}
   },
-  // 传递给 PWA 插件的选项。
-  // 查阅 https://github.com/vuejs/vue-cli/tree/dev/packages/@vue/cli-plugin-pwa
-  pwa: {},
-  // 在生产环境下为Babel和TypeScript 使用`thread-loader`
-  // 在多核机器下会默认开启。
-  parallel: require('os').cpus().length > 1,
+
   // 第三方插件的选项
   pluginOptions: {
     electronBuilder: {
