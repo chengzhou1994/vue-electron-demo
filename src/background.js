@@ -1,7 +1,8 @@
 'use strict'
-import { app, protocol, BrowserWindow } from 'electron'
+import { app, protocol, BrowserWindow, session, globalShortcut } from 'electron'
+const path = require('path')
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+// import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Scheme must be registered before the app is ready
@@ -16,7 +17,13 @@ async function createWindow() {
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: process.env.ELECTRON_NODE_INTEGRATION,
+      // contextIsolation: false,
       contextIsolation: !process.env.ELECTRON_NODE_INTEGRATION,
+      fullscreen: true,
+      skipTaskbar: false,
+      fullscreenable: true,
+      simpleFullscreen: true,
+      webSecurity: false, // 取消跨域
     },
   })
 
@@ -57,6 +64,10 @@ app.on('ready', async () => {
     } catch (e) {
       console.error('Vue Devtools failed to install:', e.toString())
     } */
+    // 安装 Vue Devtools
+    loadVueDevTools()
+    // 注册快捷键
+    registerToggleDevTools()
   }
   createWindow()
 })
@@ -74,4 +85,23 @@ if (isDevelopment) {
       app.quit()
     })
   }
+}
+
+// 加载vue开发者工具
+function loadVueDevTools() {
+  session.defaultSession
+    .loadExtension(path.join(__dirname, './devTools/vue-devtools'))
+    .then((res) => {
+      console.log('Vue Devtools loaded successfully')
+    })
+    .catch((err) => {
+      console.error('Vue Devtools failed to install:', err.toString())
+    })
+}
+
+// 注册快捷键切换打开开发者工具
+function registerToggleDevTools() {
+  globalShortcut.register('Command Or Control+Shift+i', function () {
+    BrowserWindow.getFocusedWindow().webContents.toggleDevTools()
+  })
 }

@@ -235,7 +235,8 @@ module.exports = {
         },
       },
       nodeIntegration: true, // 设置开启nodejs环境
-      contextIsolation: false,
+      contextIsolation: false, // electron为12x版本新增此行
+      nodeIntegrationInWorker: true, // 是否在Web工作器中启用了Node集成
       removeElectronJunk: false, // 移除Electron有时会产生一堆垃圾输出
     },
   },
